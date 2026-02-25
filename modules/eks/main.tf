@@ -19,6 +19,16 @@ module "eks" {
     vpc-cni = {}
   }
 
+  manage_aws_auth_configmap = true
+
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::575490177946:root"
+      username = "admin-user"
+      groups   = ["system:masters"]
+    }
+  ]
+
   eks_managed_node_groups = {
     default = {
       desired_size = 2
