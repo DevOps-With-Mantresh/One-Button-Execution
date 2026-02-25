@@ -5,6 +5,10 @@ pipeline {
     AWS_REGION = "ap-south-1"
   }
 
+  options {
+    disableConcurrentBuilds()
+  }
+
   stages {
 
     stage('Checkout') {
@@ -16,7 +20,7 @@ pipeline {
     stage('Terraform Init') {
       steps {
         sh '''
-          terraform init
+          terraform init -reconfigure
         '''
       }
     }
