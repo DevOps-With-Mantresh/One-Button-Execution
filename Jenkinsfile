@@ -1,10 +1,6 @@
 pipeline {
   agent any
 
-  environment {
-    AWS_REGION = "ap-south-1"
-  }
-
   options {
     disableConcurrentBuilds()
   }
@@ -18,31 +14,28 @@ pipeline {
     }
 
     stage('Terraform Init') {
-      steps {
-        sh '''
-          terraform init -reconfigure
-        '''
-      }
-    }
-
-    stage('Terraform Validate') {
-      steps {
-        sh '''
-          terraform validate
-        '''
+      steps { 
+        withAWS(credentials: 'aws-jenkins-creds', region: 'ap-south-1'){
+                sh '''
+                terraform init -reconfigure
+                '''
+        }
       }
     }
 
     stage('Terraform Plan') {
       steps {
+        withAWS(credentials: 'aws-jenkins-creds', region: 'ap-south-1') {
         sh '''
           terraform plan -out=tfplan
         '''
+        }
       }
     }
 
     stage('Terraform Apply') {
       steps {
+        withAWS(credentials: 'aws-jenkins-creds', region: 'ap-south-1') {
         input message: "Apply Terraform?"
         sh '''
           terraform apply -auto-approve tfplan
