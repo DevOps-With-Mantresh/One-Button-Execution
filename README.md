@@ -1,4 +1,4 @@
-## One-Button-Execution — Terraform
+## One-Button-Execution — Terraform Using Jenkins
 
 This repository contains Terraform configurations and reusable modules to create a VPC, EKS cluster, and ECR repositories. The README was updated for clearer rendering on GitHub and to provide a quick start guide.
 
@@ -81,25 +81,3 @@ environment = "dev"
   - add CI workflow for `terraform fmt`, `terraform validate`, and `tflint`.
 
 If this looks good, I'll mark the TODO done and you can preview the README on GitHub or locally in a Markdown viewer.
-terraform/
-│
-├── providers.tf
-├── backend.tf   (you configure)
-├── variables.tf
-├── main.tf
-├── outputs.tf
-│
-├── modules/
-│   ├── vpc/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── outputs.tf
-│   │
-│   ├── eks/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── outputs.tf
-│   │
-│   ├── ecr/
-│   │   ├── main.tf
-│   │   ├── outputs.tf
