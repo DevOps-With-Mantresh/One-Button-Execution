@@ -22,9 +22,9 @@ resource "aws_vpc_peering_connection" "jenkins_peer" {
 }
 
 resource "aws_route" "eks_to_jenkins" {
-  for_each = toset(module.vpc.private_route_table_ids)
+  count = length(module.vpc.private_route_table_ids)
 
-  route_table_id            = each.value
+  route_table_id            = module.vpc.private_route_table_ids[count.index]
   destination_cidr_block    = var.jenkins_vpc_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.jenkins_peer.id
 }
