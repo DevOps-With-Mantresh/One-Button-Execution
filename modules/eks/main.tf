@@ -3,7 +3,7 @@ module "eks" {
   version = "19.21.0"
 
   cluster_name    = var.cluster_name
-  cluster_version = "1.35"
+  cluster_version = "1.29"
 
   vpc_id     = var.vpc_id
   subnet_ids = var.private_subnets
@@ -13,30 +13,20 @@ module "eks" {
 
   enable_irsa = true
 
-  cluster_addons = {
-    coredns = {}
-    kube-proxy = {}
-    vpc-cni = {}
-  }
-
   manage_aws_auth_configmap = false
 
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:iam::575490177946:root"
-      username = "admin-user"
-      groups   = ["system:masters"]
-    }
-  ]
+  cluster_addons = {
+    coredns    = {}
+    kube-proxy = {}
+    vpc-cni    = {}
+  }
 
   eks_managed_node_groups = {
     default = {
-      desired_size = 1
-      min_size     = 0 
-      max_size     = 2
-
-      instance_types = ["t3.medium"]
-      capacity_type  = "ON_DEMAND"
+      desired_size   = 1
+      min_size       = 1
+      max_size       = 3
+      instance_types = ["t3a.medium"]
     }
   }
 }
